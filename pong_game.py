@@ -34,8 +34,8 @@ ball.shape("square")
 ball.color("white")
 ball.penup()
 ball.goto(0, 0)
-ball.dx = 1
-ball.dy = 1
+ball.dx = 0.5
+ball.dy = 0.5
 
 # Score
 score_1 = 0
@@ -48,7 +48,7 @@ hud.shape("square")
 hud.color("white")
 hud.penup()
 hud.hideturtle()
-hud.goto(0, 260)
+hud.goto(0, 255)
 hud.write("0 : 0", align="center", font=("Press Start 2P", 24, "normal"))
 
 
@@ -136,15 +136,18 @@ while True:
         ball.goto(0, 0)
         ball.dx *= -1
 
+    # Fixing the bug
     # Collision with the paddle 1
-    if ball.xcor() < -330 and paddle_1.ycor() + 50 > ball.ycor() > paddle_1.ycor() - 50:
+    if (-330 > ball.xcor() < -340) and (paddle_1.ycor() + 50 > ball.ycor() > paddle_1.ycor() - 50):
+        ball.setx(-330)
         ball.dx *= -1
 
         # Setting the sound to Windows
         winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
 
     # Collision with the paddle 2
-    if ball.xcor() > 330 and paddle_2.ycor() + 50 > ball.ycor() > paddle_2.ycor() - 50:
+    if (330 < ball.xcor() < 340) and (paddle_2.ycor() + 50 > ball.ycor() > paddle_2.ycor() - 50):
+        ball.setx(330)
         ball.dx *= -1
 
         # Setting the sound to Windows
