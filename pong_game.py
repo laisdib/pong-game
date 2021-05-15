@@ -1,6 +1,9 @@
+import time
 import turtle
 import winsound
 
+
+speed = 5
 
 # Draw screen
 screen = turtle.Screen()
@@ -34,8 +37,10 @@ ball.shape("square")
 ball.color("white")
 ball.penup()
 ball.goto(0, 0)
-ball.dx = 0.5
-ball.dy = 0.5
+
+# Setting the ball speed
+ball.dx = speed
+ball.dy = speed
 
 # Score
 score_1 = 0
@@ -98,6 +103,9 @@ screen.onkeypress(paddle_2_down, "Down")
 while True:
     screen.update()
 
+    # Setting ball acceleration
+    time.sleep(1 / 60)
+
     # Ball movement
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
@@ -124,6 +132,8 @@ while True:
         # Setting the sound to Windows
         winsound.PlaySound("258020__kodack__arcade-bleep-sound.wav", winsound.SND_ASYNC)
         ball.goto(0, 0)
+        ball.dx = speed
+        ball.dy = speed
         ball.dx *= -1
 
     # Collision with right wall
@@ -134,11 +144,13 @@ while True:
         # Setting the sound to Windows
         winsound.PlaySound("258020__kodack__arcade-bleep-sound.wav", winsound.SND_ASYNC)
         ball.goto(0, 0)
+        ball.dx = speed
+        ball.dy = speed
         ball.dx *= -1
 
     # Fixing the bug
     # Collision with the paddle 1
-    if (-330 > ball.xcor() < -340) and (paddle_1.ycor() + 50 > ball.ycor() > paddle_1.ycor() - 50):
+    if (-330 > ball.xcor() > -340) and (paddle_1.ycor() + 80 > ball.ycor() > paddle_1.ycor() - 80):
         ball.setx(-330)
         ball.dx *= -1
 
@@ -146,7 +158,7 @@ while True:
         winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
 
     # Collision with the paddle 2
-    if (330 < ball.xcor() < 340) and (paddle_2.ycor() + 50 > ball.ycor() > paddle_2.ycor() - 50):
+    if (330 < ball.xcor() < 340) and (paddle_2.ycor() + 80 > ball.ycor() > paddle_2.ycor() - 80):
         ball.setx(330)
         ball.dx *= -1
 
