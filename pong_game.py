@@ -4,6 +4,7 @@ import winsound
 
 
 speed = 5
+count_s = 1
 
 # Draw screen
 screen = turtle.Screen()
@@ -54,7 +55,9 @@ hud.color("white")
 hud.penup()
 hud.hideturtle()
 hud.goto(0, 255)
-hud.write("0 : 0", align="center", font=("Press Start 2P", 24, "normal"))
+hud.write("P1 0 : 0 P2", align="center", font=("Press Start 2P", 24, "normal"))
+hud.goto(0, 215)
+hud.write("SPEED x%d" %count_s, align="center", font=("Press Start 2P", 16, "normal"))
 
 
 def paddle_1_up():
@@ -127,10 +130,17 @@ while True:
     # Collision with left wall
     if ball.xcor() < -390:
         score_2 += 1
+        count_s = 1
+
         hud.clear()
-        hud.write("{} : {}".format(score_1, score_2), align="center", font=("Press Start 2P", 24, "normal"))
+        hud.goto(0, 255)
+        hud.write("P1 {} : {} P2".format(score_1, score_2), align="center", font=("Press Start 2P", 24, "normal"))
+        hud.goto(0, 215)
+        hud.write("SPEED x%d" % count_s, align="center", font=("Press Start 2P", 16, "normal"))
+
         # Setting the sound to Windows
         winsound.PlaySound("258020__kodack__arcade-bleep-sound.wav", winsound.SND_ASYNC)
+
         ball.goto(0, 0)
         ball.dx = speed
         ball.dy = speed
@@ -139,28 +149,73 @@ while True:
     # Collision with right wall
     if ball.xcor() > 390:
         score_1 += 1
+        count_s = 1
+
         hud.clear()
-        hud.write("{} : {}".format(score_1, score_2), align="center", font=("Press Start 2P", 24, "normal"))
+        hud.goto(0, 255)
+        hud.write("P1 {} : {} P2".format(score_1, score_2), align="center", font=("Press Start 2P", 24, "normal"))
+        hud.goto(0, 215)
+        hud.write("SPEED x%d" % count_s, align="center", font=("Press Start 2P", 16, "normal"))
+
         # Setting the sound to Windows
         winsound.PlaySound("258020__kodack__arcade-bleep-sound.wav", winsound.SND_ASYNC)
+
         ball.goto(0, 0)
         ball.dx = speed
         ball.dy = speed
-        ball.dx *= -1
+        ball.dx *= 1
 
     # Fixing the bug
     # Collision with the paddle 1
     if (-330 > ball.xcor() > -340) and (paddle_1.ycor() + 80 > ball.ycor() > paddle_1.ycor() - 80):
-        ball.setx(-330)
-        ball.dx *= -1
+        # Changing the ball speed
+        if (paddle_1.ycor() + 80 > ball.ycor() > paddle_1.ycor() + 20) or (paddle_1.ycor() - 20 > ball.ycor() > paddle_1.ycor() - 80):
+            ball.setx(-330)
+            ball.dx *= -1
 
-        # Setting the sound to Windows
-        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+            if ball.dx < 9.5:
+                count_s += 1
+
+                hud.clear()
+                hud.goto(0, 255)
+                hud.write("P1 {} : {} P2".format(score_1, score_2), align="center", font=("Press Start 2P", 24, "normal"))
+                hud.goto(0, 215)
+                hud.write("SPEED x%d" % count_s, align="center", font=("Press Start 2P", 16, "normal"))
+
+                ball.dx = (ball.dx + 0.5)
+                print(ball.dx)
+
+            # Setting the sound to Windows
+            winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+
+        else:
+            ball.setx(-330)
+            ball.dx *= -1
+            winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
 
     # Collision with the paddle 2
     if (330 < ball.xcor() < 340) and (paddle_2.ycor() + 80 > ball.ycor() > paddle_2.ycor() - 80):
-        ball.setx(330)
-        ball.dx *= -1
+        # Changing the ball speed
+        if (paddle_2.ycor() + 80 > ball.ycor() > paddle_2.ycor() + 20) or (paddle_2.ycor() - 20 > ball.ycor() > paddle_2.ycor() - 80):
+            ball.setx(330)
+            ball.dx *= -1
 
-        # Setting the sound to Windows
-        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+            if ball.dx > -9.5:
+                count_s += 1
+
+                hud.clear()
+                hud.goto(0, 255)
+                hud.write("P1 {} : {} P2".format(score_1, score_2), align="center", font=("Press Start 2P", 24, "normal"))
+                hud.goto(0, 215)
+                hud.write("SPEED x%d" % count_s, align="center", font=("Press Start 2P", 16, "normal"))
+
+                ball.dx = (ball.dx - 0.5)
+                print(ball.dx)
+
+            # Setting the sound to Windows
+            winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+
+        else:
+            ball.setx(330)
+            ball.dx *= -1
+            winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
