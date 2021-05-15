@@ -1,14 +1,15 @@
 import turtle
-import os
+import winsound
 
-# draw screen
+
+# Draw screen
 screen = turtle.Screen()
 screen.title("My Pong")
 screen.bgcolor("black")
 screen.setup(width=800, height=600)
 screen.tracer(0)
 
-# draw paddle 1
+# Draw paddle 1
 paddle_1 = turtle.Turtle()
 paddle_1.speed(0)
 paddle_1.shape("square")
@@ -17,7 +18,7 @@ paddle_1.shapesize(stretch_wid=5, stretch_len=1)
 paddle_1.penup()
 paddle_1.goto(-350, 0)
 
-# draw paddle 2
+# Draw paddle 2
 paddle_2 = turtle.Turtle()
 paddle_2.speed(0)
 paddle_2.shape("square")
@@ -26,7 +27,7 @@ paddle_2.shapesize(stretch_wid=5, stretch_len=1)
 paddle_2.penup()
 paddle_2.goto(350, 0)
 
-# draw ball
+# Draw ball
 ball = turtle.Turtle()
 ball.speed(0)
 ball.shape("square")
@@ -36,11 +37,11 @@ ball.goto(0, 0)
 ball.dx = 1
 ball.dy = 1
 
-# score
+# Score
 score_1 = 0
 score_2 = 0
 
-# head-up display
+# Head-up display
 hud = turtle.Turtle()
 hud.speed(0)
 hud.shape("square")
@@ -87,7 +88,7 @@ def paddle_2_down():
     paddle_2.sety(y)
 
 
-# keyboard
+# Keyboard
 screen.listen()
 screen.onkeypress(paddle_1_up, "w")
 screen.onkeypress(paddle_1_down, "s")
@@ -97,46 +98,54 @@ screen.onkeypress(paddle_2_down, "Down")
 while True:
     screen.update()
 
-    # ball movement
+    # Ball movement
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
 
-    # collision with the upper wall
+    # Collision with the upper wall
     if ball.ycor() > 290:
-        os.system("afplay bounce.wav&")
+        # Setting the sound to Windows
+        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
         ball.sety(290)
         ball.dy *= -1
 
-    # collision with lower wall
+    # Collision with lower wall
     if ball.ycor() < -290:
-        os.system("afplay bounce.wav&")
+        # Setting the sound to Windows
+        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
         ball.sety(-290)
         ball.dy *= -1
 
-    # collision with left wall
+    # Collision with left wall
     if ball.xcor() < -390:
         score_2 += 1
         hud.clear()
         hud.write("{} : {}".format(score_1, score_2), align="center", font=("Press Start 2P", 24, "normal"))
-        os.system("afplay 258020__kodack__arcade-bleep-sound.wav&")
+        # Setting the sound to Windows
+        winsound.PlaySound("258020__kodack__arcade-bleep-sound.wav", winsound.SND_ASYNC)
         ball.goto(0, 0)
         ball.dx *= -1
 
-    # collision with right wall
+    # Collision with right wall
     if ball.xcor() > 390:
         score_1 += 1
         hud.clear()
         hud.write("{} : {}".format(score_1, score_2), align="center", font=("Press Start 2P", 24, "normal"))
-        os.system("afplay 258020__kodack__arcade-bleep-sound.wav&")
+        # Setting the sound to Windows
+        winsound.PlaySound("258020__kodack__arcade-bleep-sound.wav", winsound.SND_ASYNC)
         ball.goto(0, 0)
         ball.dx *= -1
 
-    # collision with the paddle 1
+    # Collision with the paddle 1
     if ball.xcor() < -330 and paddle_1.ycor() + 50 > ball.ycor() > paddle_1.ycor() - 50:
         ball.dx *= -1
-        os.system("afplay bounce.wav&")
 
-    # collision with the paddle 2
+        # Setting the sound to Windows
+        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+
+    # Collision with the paddle 2
     if ball.xcor() > 330 and paddle_2.ycor() + 50 > ball.ycor() > paddle_2.ycor() - 50:
         ball.dx *= -1
-        os.system("afplay bounce.wav&")
+
+        # Setting the sound to Windows
+        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
