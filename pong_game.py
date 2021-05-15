@@ -227,7 +227,7 @@ def screen_update():
             screen_game()
 
             # Setting the sound to Windows
-            winsound.PlaySound("258020__kodack__arcade-bleep-sound.wav", winsound.SND_ASYNC)
+            winsound.PlaySound("arcade_sound.wav", winsound.SND_ASYNC)
 
             ball.goto(0, 0)
             ball.dx = speed * flag
